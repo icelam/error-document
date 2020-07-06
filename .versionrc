@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "postchangelog": "replace 'bitbucket.org' 'github.com' CHANGELOG.md"
+  }
+}
