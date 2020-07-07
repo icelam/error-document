@@ -4,9 +4,11 @@ const fs = require('fs');
 const Webpack = require('webpack');
 const dotenv = require('dotenv');
 const { merge } = require('webpack-merge');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { default: HTMLInlineCSSWebpackPlugin } = require('html-inline-css-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OptimizeCssnanoPlugin = require('@intervolga/optimize-cssnano-plugin');
+const cssnano = require('cssnano');
+const autoprefixer = require('autoprefixer');
 const baseWebpackConfig = require('./webpack.base.conf');
 const getClientEnvironment = require('./utils/env');
 const InlineChunkHtmlPlugin = require('./utils/InlineChunkHtmlPlugin');
@@ -34,20 +36,10 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new Webpack.DefinePlugin(clientEnv.stringified),
     new Webpack.optimize.ModuleConcatenationPlugin(),
-    new OptimizeCssnanoPlugin({
-      sourceMap: false,
-      cssnanoOptions: {
-        preset: ['default', {
-          discardComments: {
-            removeAll: true
-          }
-        }]
-      }
+    new MiniCssExtractPlugin({
+      filename: 'assets/css/[name].[chunkhash:8].css'
     }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: '../bundle-analyzer-plugin-report.html'
-    }),
+    new HTMLInlineCSSWebpackPlugin(),
     new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.+[.]js/])
   ],
   module: {
@@ -66,14 +58,31 @@ module.exports = merge(baseWebpackConfig, {
         test: /\.s?css/i,
         use: [
           {
-            loader: 'style-loader',
+            loader: MiniCssExtractPlugin.loader,
             options: {
-              insert: 'head',
-              injectType: 'singletonStyleTag'
+              publicPath: '../../'
             }
           },
           {
             loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [
+                autoprefixer(),
+                cssnano(
+                  {
+                    preset: ['default', {
+                      discardComments: {
+                        removeAll: true
+                      }
+                    }]
+                  }
+                )
+              ]
+            }
           },
           {
             loader: 'sass-loader'

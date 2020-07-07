@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable no-param-reassign */
 class InlineChunkHtmlPlugin {
   constructor(htmlWebpackPlugin, tests) {
     this.htmlWebpackPlugin = htmlWebpackPlugin;
@@ -41,6 +42,13 @@ class InlineChunkHtmlPlugin {
       hooks.alterAssetTagGroups.tap('InlineChunkHtmlPlugin', (assets) => {
         assets.headTags = assets.headTags.map(tagFunction);
         assets.bodyTags = assets.bodyTags.map(tagFunction);
+      });
+      hooks.afterEmit.tap('InlineChunkHtmlPlugin', () => {
+        Object.keys(compilation.assets).forEach((assetName) => {
+          if (this.tests.some((test) => assetName.match(test))) {
+            delete compilation.assets[assetName];
+          }
+        });
       });
     });
   }
