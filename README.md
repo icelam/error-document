@@ -29,6 +29,5 @@ The `APP_GTM_ID` is located in `.env` file.
 
 ## Notes ##
 Webpack is configured to build and output a single HTML file. 
-* `styled-loader` is used instead of `mini-css-extract-plugin` plugin, so styles are output as part of JavaScript bundle
-* `./webpack/utils/InlineChunkHtmlPlugin.js` is introduced from `react-dev-utils` to inject JS files as inline chunk
-* `postbuild` command will remove `assets` folder after build, which should only contains unnecessary `js` folder inside
+* `html-inline-css-webpack-plugin` is used to inject CSS inline
+* `./webpack/utils/InlineChunkHtmlPlugin.js` is introduced from `react-dev-utils` to inject JS files as inline chunk. The file is slightly modified to add ability to clean up assets. (TODO: Code a custom plugin)

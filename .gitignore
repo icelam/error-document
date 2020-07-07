@@ -8,5 +8,3 @@ yarn-error.log*
 .env.local
 
 /dist
-
-bundle-analyzer-plugin-report.html

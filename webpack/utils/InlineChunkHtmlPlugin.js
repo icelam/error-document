@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable no-param-reassign */
 class InlineChunkHtmlPlugin {
   constructor(htmlWebpackPlugin, tests) {
     this.htmlWebpackPlugin = htmlWebpackPlugin;
@@ -25,6 +26,8 @@ class InlineChunkHtmlPlugin {
     if (asset == null) {
       return tag;
     }
+    // Note: the below line is added to cleanup unwanted assets which are injected in to HTML
+    delete assets[scriptName];
     return { tagName: 'script', innerHTML: asset.source(), closeTag: true };
   }
 
