@@ -6,12 +6,11 @@ const dotenv = require('dotenv');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { default: HTMLInlineCSSWebpackPlugin } = require('html-inline-css-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const baseWebpackConfig = require('./webpack.base.conf');
 const getClientEnvironment = require('./utils/env');
-const InlineChunkHtmlPlugin = require('./utils/InlineChunkHtmlPlugin');
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
@@ -33,6 +32,10 @@ module.exports = merge(baseWebpackConfig, {
   mode: 'production',
   stats: 'errors-only',
   bail: true,
+  output: {
+    filename: 'assets/js/[name].[chunkhash:8].js',
+    chunkFilename: 'assets/js/[name].[chunkhash:8].chunk.js'
+  },
   plugins: [
     new Webpack.DefinePlugin(clientEnv.stringified),
     new Webpack.optimize.ModuleConcatenationPlugin(),
@@ -40,7 +43,7 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'assets/css/[name].[chunkhash:8].css'
     }),
     new HTMLInlineCSSWebpackPlugin(),
-    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/.+[.]js/])
+    new HtmlInlineScriptPlugin()
   ],
   module: {
     rules: [
