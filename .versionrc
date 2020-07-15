@@ -1,5 +1,5 @@
 {
-  "scripts": {
-    "postchangelog": "replace 'bitbucket.org' 'github.com' CHANGELOG.md"
-  }
+  "compareUrlFormat": "https://github.com/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
+  "commitUrlFormat": "https://github.com/{{owner}}/{{repository}}/commit/{{hash}}",
+  "issueUrlFormat": "https://github.com/{{owner}}/{{repository}}/issues/{{id}}"
 }
