@@ -72,19 +72,21 @@ module.exports = merge(baseWebpackConfig, {
           {
             loader: 'postcss-loader',
             options: {
-              ident: 'postcss',
-              plugins: [
-                autoprefixer(),
-                cssnano(
-                  {
-                    preset: ['default', {
-                      discardComments: {
-                        removeAll: true
-                      }
-                    }]
-                  }
-                )
-              ]
+              postcssOptions: {
+                ident: 'postcss',
+                plugins: [
+                  autoprefixer(),
+                  cssnano(
+                    {
+                      preset: ['default', {
+                        discardComments: {
+                          removeAll: true
+                        }
+                      }]
+                    }
+                  )
+                ]
+              }
             }
           },
           {

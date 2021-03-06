@@ -32,7 +32,8 @@ module.exports = {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-      }
+      },
+      inject: 'body'
     }),
     new HtmlVariablesPlugin(process.env)
   ],

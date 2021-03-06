@@ -28,6 +28,7 @@ const clientEnv = getClientEnvironment('development');
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'development',
+  target: 'web', // to have hot reload to work, production should use 'browserslist'
   devtool: 'source-map',
   output: {
     chunkFilename: 'assets/js/[name].chunk.js'
