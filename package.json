@@ -1,6 +1,6 @@
 {
   "name": "error-document",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "HTML source of error document used in my personal website",
   "private": true,
   "scripts": {
