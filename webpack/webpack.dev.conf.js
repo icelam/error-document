@@ -4,6 +4,7 @@ const fs = require('fs');
 const Webpack = require('webpack');
 const dotenv = require('dotenv');
 const { merge } = require('webpack-merge');
+const autoprefixer = require('autoprefixer');
 const baseWebpackConfig = require('./webpack.base.conf');
 const getClientEnvironment = require('./utils/env');
 
@@ -28,18 +29,19 @@ const clientEnv = getClientEnvironment('development');
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'development',
-  target: 'web', // to have hot reload to work, production should use 'browserslist'
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   output: {
     chunkFilename: 'assets/js/[name].chunk.js'
   },
   devServer: {
-    inline: true,
     host: '0.0.0.0',
     port: 8888,
-    overlay: {
-      warnings: false,
-      errors: true
+    watchFiles: ["src/**/*"],
+    client: {
+      overlay: {
+        warnings: false,
+        errors: true
+      }
     }
   },
   plugins: [
@@ -50,20 +52,36 @@ module.exports = merge(baseWebpackConfig, {
       {
         test: /\.(js)$/,
         include: path.resolve(__dirname, '../src'),
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        options: {
-          emitWarning: true
-        }
-      },
-      {
-        test: /\.(js)$/,
-        include: path.resolve(__dirname, '../src'),
         loader: 'babel-loader'
       },
       {
         test: /\.s?css$/i,
-        use: ['style-loader', 'css-loader?sourceMap=true', 'sass-loader']
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                ident: 'postcss',
+                plugins: [
+                  autoprefixer()
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
       }
     ]
   }
