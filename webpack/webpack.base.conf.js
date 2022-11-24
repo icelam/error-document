@@ -2,6 +2,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 const HtmlVariablesPlugin = require('html-variables-plugin');
 
 module.exports = {
@@ -37,6 +38,7 @@ module.exports = {
       },
       inject: 'body'
     }),
+    new HtmlInlineScriptPlugin(),
     new HtmlVariablesPlugin(process.env)
   ],
   resolve: {

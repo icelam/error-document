@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { default: HTMLInlineCSSWebpackPlugin } = require('html-inline-css-webpack-plugin');
-const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const baseWebpackConfig = require('./webpack.base.conf');
@@ -42,8 +41,7 @@ module.exports = merge(baseWebpackConfig, {
     new MiniCssExtractPlugin({
       filename: 'assets/css/[name].[chunkhash:8].css'
     }),
-    new HTMLInlineCSSWebpackPlugin(),
-    new HtmlInlineScriptPlugin()
+    new HTMLInlineCSSWebpackPlugin()
   ],
   module: {
     rules: [
