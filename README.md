@@ -13,7 +13,7 @@ This project is developed using Node.js 12. The version is already specified in 
 Install yarn packages in project root folder first using `yarn install`.
 
 ### To start the project ##
-Run `yarn dev` in project root folder.
+Run `yarn start` in project root folder.
 
 ### To build production ###
 Run `yarn build` in project root folder.

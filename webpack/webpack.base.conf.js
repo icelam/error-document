@@ -11,7 +11,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../dist'),
     filename: 'assets/js/[name].js',
-    assetModuleFilename: 'assets/[name].[hash:8][ext]'
+    assetModuleFilename: 'assets/[name].[hash:8][ext]',
+    publicPath: ''
   },
   optimization: {
     splitChunks: {
